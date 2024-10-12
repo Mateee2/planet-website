@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planets in Space</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
+        }
+
+        /* Space background with animated stars */
+        body::before {
+            content: "";
+            background-image: url('https://source.unsplash.com/1600x900/?space,stars');
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            animation: moveStars 100s linear infinite;
+        }
+
+        @keyframes moveStars {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(-200px, -200px);
+            }
+        }
+
+        /* Header Styling */
+        header {
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #fff;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Space Tech Text */
+        .space-tech {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Mate Ejibia Text */
+        .mate-ejibia {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.2rem;
+            font-weight: normal;
+            color: #fff;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Planet container */
+        .planet-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            z-index: 1;
+            padding: 20px;
+        }
+
+        .planet {
+            position: relative;
+            width: 120px;
+            height: 170px;
+            cursor: pointer;
+            transition: transform 0.5s ease, width 0.5s, height 0.5s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .planet p {
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+
+        .planet-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            background-size: cover;
+            background-position: center;
+            transition: box-shadow 0.3s;
+        }
+
+        .planet:hover .planet-img {
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.6);
+        }
+
+        /* Planet Images */
+        .planet-img.mercury {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Mercury_in_true_color.jpg/600px-Mercury_in_true_color.jpg');
+        }
+
+        .planet-img.venus {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/e5/Venus-real_color.jpg');
+        }
+
+        .planet-img.earth {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/cb/The_Blue_Marble_%28remastered%29.jpg');
+        }
+
+        .planet-img.mars {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg');
+        }
+
+        .planet-img.jupiter {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/e2/Jupiter.jpg');
+        }
+
+        .planet-img.saturn {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg');
+        }
+
+        .planet-img.uranus {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/3d/Uranus2.jpg');
+        }
+
+        .planet-img.neptune {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/56/Neptune_Full.jpg');
+        }
+
+        .planet-info {
+            display: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            position: absolute;
+            top: 140px;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .planet-info p {
+            font-size: 0.9rem;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .planet-info.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .planet.expand {
+            width: 160px;
+            height: 240px;
+            transition: transform 0.5s, width 0.5s, height 0.5s;
+            z-index: 2;
+        }
+
+        .planet.expand .planet-info {
+            display: block;
+            top: 180px;
+            z-index: 3;
+        }
+
+        /* Media Queries for responsiveness */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .planet-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .planet {
+                width: 100px;
+                height: 150px;
+            }
+
+            .planet-img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .planet-info {
+                width: 90%;
+                top: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .planet-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .planet {
+                width: 80px;
+                height: 120px;
+            }
+
+            .planet-img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .planet-info {
+                width: 80%;
+                top: 130px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="space-tech">SPACE TECH</div>
+        <h1>Explore the Planets</h1>
+        <div class="mate-ejibia">Mate Ejibia</div>
+    </header>
+
+    <div class="planet-container">
+        <!-- Planets -->
+        <div class="planet" data-info="Mercury is the closest planet to the Sun.">
+            <div class="planet-img mercury"></div>
+            <p>Mercury</p>
+            <div class="planet-info">
+                <p>Mercury is the closest planet to the Sun.</p>
+            </div>
+        </div>
+        <div class="planet" data-info="Venus has a thick atmosphere, mostly made up of carbon dioxide.">
+            <div class="planet-img venus"></div>
+            <p>Venus</p>
+            <div class="planet-info">
+                <p>Venus has a thick atmosphere, mostly made up of carbon dioxide.</p>
+            </div>
+        </div>
+        <div class="planet" data-info="Earth is the only planet known to support life.">
+            <div class="planet-img earth"></div>
+            <p>Earth</p>
+            <div class="planet-info">
+                <p>Earth is the only planet known to support life.</p>
+            </div>
+        </div>
+        <div class="planet" data-info="Mars is known as the Red Planet because of its reddish appearance due to iron oxide.">
+            <div class="planet-img mars"></div>
+            <p>Mars</p>
+            <div class="planet-info">
+                <p>Mars is known as the Red Planet because of its reddish appearance due to iron oxide.</p>
+            </div>
+        </div>
+        <div class="planet" data-info="Jupiter is the largest planet in the solar system, known for its Great Red Spot.">
+            <div class="planet-img jupiter"></div>
+            <p>Jupiter</p>
+            <div class="planet-info">
+                <p>Jupiter is the largest planet in the solar system, known for its Great Red Spot.</p>
+            </div>
+        </div>
+        <div class="planet" data-info="Saturn is famous for its stunning ring system, made of ice and rock.">
+            <div class="planet-img saturn"></div>
+            <p>Saturn</p>
+            <div class="planet-info">
+                <p>Saturn is famous for its stunning ring system, made of ice and rock.</p>
+            </div>
+        </div>
+        <div class="planet" data-info="Uranus is a gas giant with a unique tilt that causes extreme seasons.">
+            <div class="planet-img uranus"></div>
+            <p>Uranus</p>
+            <div class="planet-info">
+                <p>Uranus is a gas giant with a unique tilt that causes extreme seasons.</p>
+            </div>
+        </div>
+        <div class="planet" data-info="Neptune is the farthest planet from the Sun and is known for its deep blue color.">
+            <div class="planet-img neptune"></div>
+            <p>Neptune</p>
+            <div class="planet-info">
+                <p>Neptune is the farthest planet from the Sun and is known for its deep blue color.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const planets = document.querySelectorAll('.planet');
+        const synth = window.speechSynthesis;
+        let voices = [];
+
+        function loadVoices() {
+            voices = synth.getVoices();
+        }
+
+        if (synth.onvoiceschanged !== undefined) {
+            synth.onvoiceschanged = loadVoices;
+        } else {
+            loadVoices();
+        }
+
+        planets.forEach(planet => {
+            planet.addEventListener('click', () => {
+                const infoText = planet.getAttribute('data-info');
+                const isExpanded = planet.classList.contains('expand');
+                
+                document.querySelectorAll('.planet').forEach(p => {
+                    p.classList.remove('expand');
+                    p.querySelector('.planet-info').classList.remove('show');
+                });
+                
+                if (!isExpanded) {
+                    planet.classList.add('expand');
+                    planet.querySelector('.planet-info').classList.add('show');
+                    speakPlanetInfo(infoText);
+                }
+            });
+        });
+
+        function speakPlanetInfo(infoText) {
+            const speech = new SpeechSynthesisUtterance(infoText);
+            const selectedVoice = voices.find(voice => voice.lang === 'en-US' && voice.name.toLowerCase().includes('female'));
+            speech.voice = selectedVoice || voices.find(voice => voice.lang === 'en-US');
+            speech.lang = 'en-US';
+            speech.rate = 1;
+            speech.pitch = 1;
+            window.speechSynthesis.speak(speech);
+        }
+    </script>
+</body>
+</html>
